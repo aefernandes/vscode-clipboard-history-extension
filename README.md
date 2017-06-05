@@ -1,18 +1,14 @@
-# VS Code Clipboard History Extension
-
 <h1 align="center">
+  <br>
+  VS Code - Clipboard History Extension
+  <br>
   <br>
     <img src="images/logo.png" alt="logo" width="200">
   <br>
-  VS Code - Debugger for Chrome
-  <br>
-  <br>
 </h1>
-![logo](
+<h4 align="center">Keep a history of your copied and cut items and re-paste if needed.</h4>
 
-Keep a history of your copied and cut items and re-paste if needed.
-
-**Type Clipboard in command palette to view all commands.**
+-----------------------------------------------------------------------------------------------------------
 
 ## Key Features
 
@@ -25,6 +21,8 @@ Keep a history of your copied and cut items and re-paste if needed.
 
 ## Keyboard Shortcuts
 
+**Type Clipboard in the command palette to view all commands.**
+
 `Ctrl+C` copies and `Ctrl+X ` cuts the selected item. These override the default shortcuts to save the item to clipboard. If nothing is selected, the entire line will be saved. 
 
 `Ctrl+V` pastes the most recent item.
@@ -35,9 +33,6 @@ Keep a history of your copied and cut items and re-paste if needed.
 
 `Ctrl+Alt+V E` opens the clipboard editor settings. Use the arrow keys to scroll and press Enter to edit a selected item. 
 
-You can also add custom keyboard short cuts by following the directions on the website [customization documentation](https://code.visualstudio.com/docs/customization/keybindings).
-
-
-## 
+You can also add custom keyboard short cuts by following the instructions in the [customization documentation](https://code.visualstudio.com/docs/customization/keybindings).
 
 -----------------------------------------------------------------------------------------------------------
