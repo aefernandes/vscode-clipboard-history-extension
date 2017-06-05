@@ -45,8 +45,7 @@ export function activate(context: ExtensionContext) {
         if (index > -1) {clipboardArray[index] = text; }
         return clipboardArray;
     }
-    // Called by pasteFromClipboard command
-    // Paste item if selected from options list
+
     function pasteSelected(item: QuickPickItem) {
         let activeEditor
         if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
