@@ -19,6 +19,21 @@
 5. Edit selected item in history
   
 
+## Demos
+### Saving to and Pasting from Clipboard History
+<br>
+    <img src="images/demo-1.gif" alt="demo-1">
+  <br>
+
+### Erasing from Clipboard History
+<br>
+    <img src="images/demo-2.gif" alt="demo-2">
+  <br>
+  
+### Editing Clipboard History
+  <br>
+    <img src="images/demo-3.gif" alt="demo-3">
+  <br>
 ## Keyboard Shortcuts
 
 **Type Clipboard in the command palette to view all commands.**
