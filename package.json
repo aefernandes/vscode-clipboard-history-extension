@@ -2,8 +2,18 @@
     "name": "clipboard-history",
     "displayName": "Clipboard History",
     "description": "Keep a history of your copied items and re-paste if needed",
-    "version": "1.0.1",
-    "publisher": "Anjali",
+    "version": "1.0.2",
+    "publisher": "Anjali Fernandes",
+    "license": "LICENSE.md",
+    "icon": "logo.png",
+    "bugs": {
+        "url": "https://github.com/aefernandes/vscode-copypaste-history-extension/issues"
+    },
+    "homepage": "https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aefernandes/vscode-copypaste-history-extension/"
+    },
     "engines": {
         "vscode": "^1.12.0"
     },
@@ -16,7 +26,7 @@
         "onCommand:clipboard.paste",
         "onCommand:clipboard.pasteFromClipboard",
         "onCommand:clipboard.removeFromClipboard",
-        "onCommand:clipboard.editClipboard"                
+        "onCommand:clipboard.editClipboard"
     ],
     "main": "./out/src/clipboard",
     "contributes": {
@@ -46,7 +56,7 @@
                 "title": "Edit Clipboard"
             }
         ],
-        "keybindings":[
+        "keybindings": [
             {
                 "command": "clipboard.copy",
                 "key": "ctrl+c",

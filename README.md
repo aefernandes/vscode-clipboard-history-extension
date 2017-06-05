@@ -3,7 +3,7 @@
   VS Code - Clipboard History Extension
   <br>
   <br>
-    <img src="images/logo.png" alt="logo" width="200">
+    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/logo.png" alt="logo" width="200">
   <br>
 </h1>
 <h4 align="center">Keep a history of your copied and cut items and re-paste if needed.</h4>
@@ -22,17 +22,17 @@
 ## Demos
 ### Saving to and Pasting from Clipboard History
 <br>
-    <img src="images/demo-1.gif" alt="demo-1">
+    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/demo-1.gif" alt="demo-1">
   <br>
 
 ### Erasing from Clipboard History
 <br>
-    <img src="images/demo-2.gif" alt="demo-2">
+    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/demo-2.gif" alt="demo-2">
   <br>
   
 ### Editing Clipboard History
   <br>
-    <img src="images/demo-3.gif" alt="demo-3">
+    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/demo-3.gif" alt="demo-3">
   <br>
 
 ## Keyboard Shortcuts
