@@ -39,6 +39,10 @@
             {
                 "command": "extension.removeFromClipboard",
                 "title": "Remove from Clipboard"
+            },
+            {
+                "command": "extension.editClipboard",
+                "title": "Edit Clipboard"
             }
         ],
         "keybindings":[
@@ -60,7 +64,11 @@
             },
             {
                 "command": "extension.removeFromClipboard",
-                "key": "ctrl+alt+v"
+                "key": "ctrl+alt+v d"
+            },
+            {
+                "command": "extension.editClipboard",
+                "key": "ctrl+alt+v e"
             }
         ]
     },
