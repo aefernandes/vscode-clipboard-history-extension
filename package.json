@@ -5,7 +5,7 @@
     "version": "1.0.2",
     "publisher": "Anjali",
     "license": "LICENSE.md",
-    "icon": "logo.png",
+    "icon": "https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/logo.png",
     "bugs": {
         "url": "https://github.com/aefernandes/vscode-copypaste-history-extension/issues"
     },
