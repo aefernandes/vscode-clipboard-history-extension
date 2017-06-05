@@ -34,6 +34,7 @@
   <br>
     <img src="images/demo-3.gif" alt="demo-3">
   <br>
+
 ## Keyboard Shortcuts
 
 **Type Clipboard in the command palette to view all commands.**
