@@ -1,8 +1,8 @@
 {
-    "name": "copy/paste-history",
-    "displayName": "Copy/Paste History",
+    "name": "clipboard-history",
+    "displayName": "Clipboard History",
     "description": "Keep a history of your copied items and re-paste if needed",
-    "version": "0.0.1",
+    "version": "1.0.1",
     "publisher": "Anjali",
     "engines": {
         "vscode": "^1.12.0"
@@ -11,63 +11,68 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.copy",
-        "onCommand:extension.cut",
-        "onCommand:extension.paste",
-        "onCommand:extension.addToHistory",
-        "onCommand:extension.removeFromHistory"
+        "onCommand:clipboard.copy",
+        "onCommand:clipboard.cut",
+        "onCommand:clipboard.paste",
+        "onCommand:clipboard.pasteFromClipboard",
+        "onCommand:clipboard.removeFromClipboard",
+        "onCommand:clipboard.editClipboard"                
     ],
-    "main": "./out/src/extension",
+    "main": "./out/src/clipboard",
     "contributes": {
         "commands": [
             {
-                "command": "extension.copy",
+                "command": "clipboard.copy",
                 "title": "Copy to Clipboard"
             },
             {
-                "command": "extension.cut",
+                "command": "clipboard.cut",
                 "title": "Cut to Clipboard"
             },
             {
-                "command": "extension.paste",
+                "command": "clipboard.paste",
                 "title": "Paste"
             },
             {
-                "command": "extension.pasteFromClipBoard",
+                "command": "clipboard.pasteFromClipboard",
                 "title": "Paste from Clipboard"
             },
             {
-                "command": "extension.removeFromClipboard",
+                "command": "clipboard.removeFromClipboard",
                 "title": "Remove from Clipboard"
             },
             {
-                "command": "extension.editClipboard",
+                "command": "clipboard.editClipboard",
                 "title": "Edit Clipboard"
             }
         ],
         "keybindings":[
             {
-                "command": "extension.copy",
-                "key": "ctrl+c"
+                "command": "clipboard.copy",
+                "key": "ctrl+c",
+                "mac": "cmd+c"
             },
             {
-                "command": "extension.cut",
-                "key": "ctrl+x"
+                "command": "clipboard.cut",
+                "key": "ctrl+x",
+                "mac": "cmd+x"
             },
             {
-                "command": "extension.paste",
-                "key": "ctrl+v"
+                "command": "clipboard.paste",
+                "key": "ctrl+v",
+                "mac": "cmd+v"
             },
             {
-                "command": "extension.pasteFromClipboard",
-                "key": "ctrl+shift+v"
+                "command": "clipboard.pasteFromClipboard",
+                "key": "ctrl+shift+v",
+                "mac": "cmd+shift+v"
             },
             {
-                "command": "extension.removeFromClipboard",
+                "command": "clipboard.removeFromClipboard",
                 "key": "ctrl+alt+v d"
             },
             {
-                "command": "extension.editClipboard",
+                "command": "clipboard.editClipboard",
                 "key": "ctrl+alt+v e"
             }
         ]

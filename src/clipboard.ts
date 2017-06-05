@@ -26,22 +26,22 @@ export function activate(context: ExtensionContext) {
         var options: QuickPickOptions = {placeHolder: "Clipboard", matchOnDescription: true, matchOnDetail: true};
         var copiedItems: QuickPickItem[] = [];
         // Add clear all history option if making removal quick pick
-        if (toBeRemoved && clipboardArray.length > 0) { copiedItems.push({ label: "0", description: "Clear All History" }); }
+        if (toBeRemoved && clipboardArray.length > 0) { copiedItems.push({ label: "", description: "Clear All History" }); }
         // List clipboard items in order of recency
         for (var i = 0; i < clipboardArray.length; i++) {
-            copiedItems.unshift({label:(i+1).toString(), description:clipboardArray[i]});
+            copiedItems.unshift({label:"", description:clipboardArray[i]});
         }
         return copiedItems;
     }
 
     function removeQuickPickItem(clipboardArray, item: QuickPickItem) {
-        let index = parseInt(item.label) - 1;
+        let index = clipboardArray.indexOf(item.description)
         if (index > -1) { clipboardArray.splice(index, 1); }
         return clipboardArray;
     }
 
     function editQuickPickItem(clipboardArray, item: QuickPickItem, text: string) {
-        let index = parseInt(item.label) - 1;
+        let index = clipboardArray.indexOf(item.description);
         if (index > -1) {clipboardArray[index] = text; }
         return clipboardArray;
     }
@@ -60,21 +60,21 @@ export function activate(context: ExtensionContext) {
         }         
     }
 
-    disposableArray.push(commands.registerCommand('extension.copy', () => {
+    disposableArray.push(commands.registerCommand('clipboard.copy', () => {
         addClipboardItem(window.activeTextEditor);
         commands.executeCommand("editor.action.clipboardCopyAction");
     }));
 
-    disposableArray.push(commands.registerCommand('extension.cut', () => {
+    disposableArray.push(commands.registerCommand('clipboard.cut', () => {
         addClipboardItem(window.activeTextEditor);
         commands.executeCommand("editor.action.clipboardCutAction");
     }));
 
-    disposableArray.push(commands.registerCommand('extension.paste', () => {
+    disposableArray.push(commands.registerCommand('clipboard.paste', () => {
         commands.executeCommand("editor.action.clipboardPasteAction");
     }));
 
-    disposableArray.push(commands.registerCommand('extension.pasteFromClipboard', () => {
+    disposableArray.push(commands.registerCommand('clipboard.pasteFromClipboard', () => {
         if (clipboardArray.length == 0) { 
             window.setStatusBarMessage("No items in clipboard");
             window.showQuickPick(makeQuickPick(clipboardArray));
@@ -84,7 +84,7 @@ export function activate(context: ExtensionContext) {
         }
     }));
 
-    disposableArray.push(commands.registerCommand('extension.removeFromClipboard', () => {
+    disposableArray.push(commands.registerCommand('clipboard.removeFromClipboard', () => {
         if (clipboardArray.length == 0) {
             window.setStatusBarMessage("No items in clipboard");
             window.showQuickPick(makeQuickPick(clipboardArray));
@@ -92,7 +92,7 @@ export function activate(context: ExtensionContext) {
         } else {
             let currentQuickPick = makeQuickPick(clipboardArray, true);
             window.showQuickPick(currentQuickPick).then((item)=>{
-                if (item.label === "0" && item.description === "Clear All History") {
+                if (item.description === "Clear All History") {
                     clipboardArray = [];    // Clear clipboard history if selected
                     window.setStatusBarMessage("Clipboard history cleared");
                     return;
@@ -104,7 +104,7 @@ export function activate(context: ExtensionContext) {
         }
     }));
     
-    disposableArray.push(commands.registerCommand('extension.editClipboard', () => {
+    disposableArray.push(commands.registerCommand('clipboard.editClipboard', () => {
         if (clipboardArray.length == 0) {
             window.setStatusBarMessage("No items in clipboard");
             return;
