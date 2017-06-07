@@ -72,32 +72,38 @@
             {
                 "command": "clipboard.copy",
                 "key": "ctrl+c",
-                "mac": "cmd+c"
+                "mac": "cmd+c",
+                "when": "editorTextFocus"
             },
             {
                 "command": "clipboard.cut",
                 "key": "ctrl+x",
-                "mac": "cmd+x"
+                "mac": "cmd+x",
+                "when": "editorTextFocus"
             },
             {
                 "command": "clipboard.paste",
                 "key": "ctrl+v",
-                "mac": "cmd+v"
+                "mac": "cmd+v",
+                "when": "editorTextFocus"
             },
             {
                 "command": "clipboard.pasteFromClipboard",
                 "key": "ctrl+shift+v",
-                "mac": "cmd+shift+v"
+                "mac": "cmd+shift+v",
+                "when": "editorTextFocus"
             },
             {
                 "command": "clipboard.removeFromClipboard",
                 "key": "ctrl+alt+v d",
-                "mac": "cmd+alt+v d"
+                "mac": "cmd+alt+v d",
+                "when": "editorTextFocus"
             },
             {
                 "command": "clipboard.editClipboard",
                 "key": "ctrl+alt+v e",
-                "mac": "cmd+alt+v e"
+                "mac": "cmd+alt+v e",
+                "when": "editorTextFocus"
             }
         ]
     },
