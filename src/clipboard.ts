@@ -19,15 +19,18 @@ export function activate(context: ExtensionContext) {
                 let lineEnd = new Position(line, doc.lineAt(line).range.end.character)
                 text = doc.getText(new Range(lineStart, lineEnd));
             }
+            
             console.log(clipboardArray.length);
             console.log(clipboardSize);
             
-            if (~clipboardArray.indexOf(text)) {
-                clipboardArray.push(text);
-                if (clipboardArray.length > clipboardSize) {
-                    clipboardArray.shift();
-                }
-            }           
+            if (!~clipboardArray.indexOf(text)) {
+                return;
+            }          
+            
+            clipboardArray.push(text);
+            if (clipboardArray.length > clipboardSize) {
+                clipboardArray.shift();
+            }
         }
     }    
 
