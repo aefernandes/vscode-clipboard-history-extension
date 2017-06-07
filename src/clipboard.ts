@@ -21,10 +21,13 @@ export function activate(context: ExtensionContext) {
             }
             console.log(clipboardArray.length);
             console.log(clipboardSize);
-            clipboardArray.push(text);
-            if (clipboardArray.length > clipboardSize) {
-                clipboardArray.shift();
-            }
+            
+            if (~clipboardArray.indexOf(text)) {
+                clipboardArray.push(text);
+                if (clipboardArray.length > clipboardSize) {
+                    clipboardArray.shift();
+                }
+            }           
         }
     }    
 
