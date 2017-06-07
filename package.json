@@ -2,17 +2,17 @@
     "name": "clipboard-history",
     "displayName": "Clipboard History",
     "description": "Keep a history of your copied items and re-paste if needed",
-    "version": "1.0.2",
+    "version": "1.0.5",
     "publisher": "Anjali",
     "license": "LICENSE.md",
     "icon": "images/logo.png",
     "bugs": {
-        "url": "https://github.com/aefernandes/vscode-copypaste-history-extension/issues"
+        "url": "https://github.com/aefernandes/vscode-clipboard-history-extension/issues"
     },
-    "homepage": "https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/README.md",
+    "homepage": "https://github.com/aefernandes/vscode-clipboard-history-extension/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/aefernandes/vscode-copypaste-history-extension/"
+        "url": "https://github.com/aefernandes/vscode-clipboard-history-extension/"
     },
     "engines": {
         "vscode": "^1.12.0"
@@ -30,6 +30,18 @@
     ],
     "main": "./out/src/clipboard",
     "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Clipboard History",
+            "properties": {
+                "clipboard.size": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 12,
+                    "description": "Maximum number of items saved in clipboard"
+                }
+            }
+        },
         "commands": [
             {
                 "command": "clipboard.copy",
@@ -79,11 +91,13 @@
             },
             {
                 "command": "clipboard.removeFromClipboard",
-                "key": "ctrl+alt+v d"
+                "key": "ctrl+alt+v d",
+                "mac": "cmd+alt+v d"
             },
             {
                 "command": "clipboard.editClipboard",
-                "key": "ctrl+alt+v e"
+                "key": "ctrl+alt+v e",
+                "mac": "cmd+alt+v e"
             }
         ]
     },

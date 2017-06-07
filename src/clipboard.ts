@@ -1,7 +1,9 @@
 'use strict';
-import {ExtensionContext, TextEditor, TextDocument, Range, Position, QuickPickOptions, QuickPickItem, window, commands} from 'vscode';
+import {ExtensionContext, workspace, TextEditor, TextDocument, Range, Position, QuickPickOptions, QuickPickItem, window, commands} from 'vscode';
 
 export function activate(context: ExtensionContext) {
+    let config = workspace.getConfiguration('clipboard');
+    let clipboardSize = config.get('size', 12);
     var clipboardArray = [];    
     var disposableArray = [];
 
@@ -17,7 +19,12 @@ export function activate(context: ExtensionContext) {
                 let lineEnd = new Position(line, doc.lineAt(line).range.end.character)
                 text = doc.getText(new Range(lineStart, lineEnd));
             }
+            console.log(clipboardArray.length);
+            console.log(clipboardSize);
             clipboardArray.push(text);
+            if (clipboardArray.length > clipboardSize) {
+                clipboardArray.shift();
+            }
         }
     }    
 

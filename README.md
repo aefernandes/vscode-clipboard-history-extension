@@ -3,7 +3,7 @@
   VS Code - Clipboard History Extension
   <br>
   <br>
-    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/logo.png" alt="logo" width="200">
+    <img src="https://raw.githubusercontent.com/aefernandes/vscode-clipboard-history-extension/master/images/logo.png" alt="logo" width="200">
   <br>
 </h1>
 <h4 align="center">Keep a history of your copied and cut items and re-paste if needed.</h4>
@@ -17,23 +17,6 @@
 3. Clear all history
 4. Remove selected item from history
 5. Edit selected item in history
-  
-
-## Demos
-### Saving to and Pasting from Clipboard History
-<br>
-    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/demo-1.gif" alt="demo-1">
-  <br>
-
-### Erasing from Clipboard History
-<br>
-    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/demo-2.gif" alt="demo-2">
-  <br>
-  
-### Editing Clipboard History
-  <br>
-    <img src="https://github.com/aefernandes/vscode-copypaste-history-extension/blob/master/images/demo-3.gif" alt="demo-3">
-  <br>
 
 ## Keyboard Shortcuts
 
@@ -50,5 +33,27 @@
 `Ctrl+Alt+V E` opens the clipboard editor settings. Use the arrow keys to scroll and press Enter to edit a selected item. 
 
 You can also add custom keyboard short cuts by following the instructions in the [customization documentation](https://code.visualstudio.com/docs/customization/keybindings).
+
+## Configuration
+
+`clipboard.size` is the maximum number of items saved in the clipboard. The default is 12, but this can be changed in [settings](https://code.visualstudio.com/docs/getstarted/settings#_default-settings).
+
+
+## Demos
+### Saving to and Pasting from Clipboard History
+
+![demo](images/demo-1.gif)
+
+
+### Erasing from Clipboard History
+
+![demo](images/demo-2.gif)
+  
+### Editing Clipboard History
+
+![demo](images/demo-3.gif)
+
+
+
 
 -----------------------------------------------------------------------------------------------------------
