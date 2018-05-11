@@ -57,7 +57,7 @@ export function activate(context: ExtensionContext) {
         return clipboardArray;
     }
 
-    function pasteSelected(item: QuickPickItem) {
+    function pasteSelected(item: QuickPickItem, clipboardArray) {
         let activeEditor
         if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
             let text = item.description;
@@ -65,7 +65,10 @@ export function activate(context: ExtensionContext) {
                 textInserter.delete(activeEditor.selection);    // Delete anything currently selected
             }).then(function () {
                 activeEditor.edit(function (textInserter) {
-                    textInserter.insert(activeEditor.selection.start, text)     // Insert text from list
+                    textInserter.insert(activeEditor.selection.start, text);     // Insert text from list
+
+                    // Move the last pasted item to the top of the list.
+                    clipboardArray.push(clipboardArray.splice(clipboardArray.indexOf(text), 1)[0]);
                 })
             })  
         }         
@@ -91,7 +94,7 @@ export function activate(context: ExtensionContext) {
             window.showQuickPick(makeQuickPick(clipboardArray));
             return; 
         } else {
-            window.showQuickPick(makeQuickPick(clipboardArray)).then((item) => { pasteSelected(item); });
+            window.showQuickPick(makeQuickPick(clipboardArray)).then((item) => { pasteSelected(item, clipboardArray); });
         }
     }));
 
