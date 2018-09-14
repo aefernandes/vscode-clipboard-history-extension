@@ -1,5 +1,16 @@
 'use strict';
-import {ExtensionContext, workspace, TextEditor, TextDocument, Range, Position, QuickPickOptions, QuickPickItem, window, commands} from 'vscode';
+import {
+    ExtensionContext, 
+    workspace, 
+    TextEditor, 
+    TextDocument, 
+    Range, 
+    Position, 
+    QuickPickOptions, 
+    QuickPickItem, 
+    window, 
+    commands,
+} from 'vscode';
 
 export function activate(context: ExtensionContext) {
     let config = workspace.getConfiguration('clipboard');
@@ -9,19 +20,16 @@ export function activate(context: ExtensionContext) {
 
     // Save all values that are copied to clipboard in array
     function addClipboardItem(editor: TextEditor) {
-        let doc: TextDocument = editor.document;
-        let sels = editor.selections;
+        const doc: TextDocument = editor.document;
+        const sels = editor.selections;
         for (var i = 0; i < sels.length; i++) {
-            let line = sels[i].active.line;
+            const line = sels[i].active.line;
             let text = doc.getText(new Range(sels[i].start, sels[i].end));
             if (sels[i].isEmpty) { // Get full line if no selection highlighted
                 let lineStart = new Position(line, 0);
-                let lineEnd = new Position(line, doc.lineAt(line).range.end.character)
+                let lineEnd = new Position(line, doc.lineAt(line).range.end.character);
                 text = doc.getText(new Range(lineStart, lineEnd));
             }
-            
-            console.log(clipboardArray.length);
-            console.log(clipboardSize);
             
             if (clipboardArray.indexOf(text) === -1) {
                 clipboardArray.push(text);
@@ -33,42 +41,67 @@ export function activate(context: ExtensionContext) {
     }    
 
     function makeQuickPick(clipboardArray, toBeRemoved?: boolean) {
-        // Create quick pick clipboard items
-        var options: QuickPickOptions = {placeHolder: "Clipboard", matchOnDescription: true, matchOnDetail: true};
-        var copiedItems: QuickPickItem[] = [];
+        const copiedItems: QuickPickItem[] = [];
         // Add clear all history option if making removal quick pick
-        if (toBeRemoved && clipboardArray.length > 0) { copiedItems.push({ label: "", description: "Clear All History" }); }
+        if (toBeRemoved && clipboardArray.length > 0) {
+            copiedItems.push({ 
+                label: "", 
+                description: "Clear All History",
+            }); 
+        }
         // List clipboard items in order of recency
         for (var i = 0; i < clipboardArray.length; i++) {
-            copiedItems.unshift({label:"", description:clipboardArray[i]});
+            copiedItems.unshift({
+                label:"", 
+                description:clipboardArray[i],
+            });
         }
         return copiedItems;
     }
 
     function removeQuickPickItem(clipboardArray, item: QuickPickItem) {
-        let index = clipboardArray.indexOf(item.description)
-        if (index > -1) { clipboardArray.splice(index, 1); }
+        const index = clipboardArray.indexOf(item.description);
+        if (index > -1) {
+            clipboardArray.splice(index, 1);
+        }
         return clipboardArray;
     }
 
     function editQuickPickItem(clipboardArray, item: QuickPickItem, text: string) {
-        let index = clipboardArray.indexOf(item.description);
-        if (index > -1) {clipboardArray[index] = text; }
+        const index = clipboardArray.indexOf(item.description);
+        if (index > -1) {
+            clipboardArray[index] = text;
+        }
         return clipboardArray;
     }
 
     function pasteSelected(item: QuickPickItem) {
-        let activeEditor
-        if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
-            let text = item.description;
-            activeEditor.edit(function (textInserter) {
+        if(!item) return;
+
+        const activeEditor = window.activeTextEditor;
+        if (activeEditor) {    // Don't run if no active text editor instance available
+            activeEditor.edit((textInserter) => {
                 textInserter.delete(activeEditor.selection);    // Delete anything currently selected
-            }).then(function () {
-                activeEditor.edit(function (textInserter) {
-                    textInserter.insert(activeEditor.selection.start, text)     // Insert text from list
+            }).then(() => {
+                activeEditor.edit((textInserter) => {
+                    textInserter.insert(activeEditor.selection.start, item.description);     // Insert text from list
+                    
+                    clipboardArray.splice(clipboardArray.indexOf(item.description), 1);
+                    clipboardArray.push(item.description);
                 })
-            })  
-        }         
+            })
+        }
+    }
+
+    function pasteLastClipboardItem(activeEditor: TextEditor) {
+        activeEditor.edit((textInserter) => {
+            textInserter.delete(activeEditor.selection);    // Delete anything currently selected
+        }).then(() => {
+            activeEditor.edit((textInserter) => {
+                const item = clipboardArray[clipboardArray.length - 1]
+                textInserter.insert(activeEditor.selection.start, item);     // Insert text from list
+            })
+        })
     }
 
     disposableArray.push(commands.registerCommand('clipboard.copy', () => {
@@ -82,7 +115,11 @@ export function activate(context: ExtensionContext) {
     }));
 
     disposableArray.push(commands.registerCommand('clipboard.paste', () => {
-        commands.executeCommand("editor.action.clipboardPasteAction");
+        if(config.get('pasteBehavior') == 'keepLastPaste') {
+            pasteLastClipboardItem(window.activeTextEditor);
+        } else {
+            commands.executeCommand("editor.action.clipboardPasteAction");
+        }
     }));
 
     disposableArray.push(commands.registerCommand('clipboard.pasteFromClipboard', () => {
@@ -101,14 +138,14 @@ export function activate(context: ExtensionContext) {
             window.showQuickPick(makeQuickPick(clipboardArray));
             return;
         } else {
-            let currentQuickPick = makeQuickPick(clipboardArray, true);
-            window.showQuickPick(currentQuickPick).then((item)=>{
+            const currentQuickPick = makeQuickPick(clipboardArray, true);
+            window.showQuickPick(currentQuickPick).then((item) => {
                 if (item.description === "Clear All History") {
                     clipboardArray = [];    // Clear clipboard history if selected
                     window.setStatusBarMessage("Clipboard history cleared");
                     return;
                 } else {
-                    let removedQuickPick = makeQuickPick(removeQuickPickItem(clipboardArray, item), true);
+                    makeQuickPick(removeQuickPickItem(clipboardArray, item), true);
                     window.setStatusBarMessage("Removed from clipboard");
                 }
             });
@@ -120,12 +157,11 @@ export function activate(context: ExtensionContext) {
             window.setStatusBarMessage("No items in clipboard");
             return;
         } else {
-            let currentQuickPick = makeQuickPick(clipboardArray);
+            const currentQuickPick = makeQuickPick(clipboardArray);
             window.showQuickPick(currentQuickPick).then((item) => {
-                let text = item.description;
                 window.showInputBox({ value: item.description.toString() })
-                    .then(val => {
-                        let editedQuickPick = makeQuickPick(editQuickPickItem(clipboardArray, item, val));
+                    .then((val) => {
+                        makeQuickPick(editQuickPickItem(clipboardArray, item, val));
                         window.setStatusBarMessage("Edited clipboard item");
                     });
             })
