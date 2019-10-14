@@ -17,20 +17,23 @@
 3. Clear all history
 4. Remove selected item from history
 5. Edit selected item in history
+6. Cycle paste items from clipboard
 
 ## Keyboard Shortcuts
 
 **Type Clipboard in the command palette to view all commands.**
 
-`Ctrl+C` copies and `Ctrl+X ` cuts the selected item. These override the default shortcuts to save the item to clipboard. If nothing is selected, the entire line will be saved. 
+`Ctrl+C` copies and `Ctrl+X ` cuts the selected item. These override the default shortcuts to save the item to clipboard. If nothing is selected, the entire line will be saved.
 
 `Ctrl+V` pastes the most recent item.
 
-`Ctrl+Shift+V` opens the clipboard history. Use the arrow keys to scroll and press Enter to paste a selected item. 
+`Ctrl+Shift+V` opens the clipboard history. Use the arrow keys to scroll and press Enter to paste a selected item.
 
 `Ctrl+Alt+V D` opens the clipboard delete settings. Use the arrow keys to scroll and press Enter to remove a selected item. The "Clear History" option will erase all items from history.
 
-`Ctrl+Alt+V E` opens the clipboard editor settings. Use the arrow keys to scroll and press Enter to edit a selected item. 
+`Ctrl+Alt+V E` opens the clipboard editor settings. Use the arrow keys to scroll and press Enter to edit a selected item.
+
+`Ctrl+Shift+Alt+V` cycle pastes the items from clipboard.
 
 You can also add custom keyboard short cuts by following the instructions in the [customization documentation](https://code.visualstudio.com/docs/customization/keybindings).
 
@@ -48,7 +51,7 @@ You can also add custom keyboard short cuts by following the instructions in the
 ### Erasing from Clipboard History
 
 ![demo](images/demo-2.gif)
-  
+
 ### Editing Clipboard History
 
 ![demo](images/demo-3.gif)

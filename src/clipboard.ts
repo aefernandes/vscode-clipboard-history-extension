@@ -1,11 +1,15 @@
 'use strict';
-import {ExtensionContext, workspace, TextEditor, TextDocument, Range, Position, QuickPickOptions, QuickPickItem, window, commands} from 'vscode';
+import {ExtensionContext, workspace, TextEditor, TextDocument, Range, Position, QuickPickOptions, QuickPickItem, window, commands, Selection} from 'vscode';
 
 export function activate(context: ExtensionContext) {
     let config = workspace.getConfiguration('clipboard');
     let clipboardSize = config.get('size', 12);
-    var clipboardArray = [];    
+    var clipboardArray = [];
     var disposableArray = [];
+
+    // Used by cyclePaste command
+    let lastPaste = -1;
+    let timeoutAfterCyclePaste;
 
     // Save all values that are copied to clipboard in array
     function addClipboardItem(editor: TextEditor) {
@@ -19,10 +23,6 @@ export function activate(context: ExtensionContext) {
                 let lineEnd = new Position(line, doc.lineAt(line).range.end.character)
                 text = doc.getText(new Range(lineStart, lineEnd));
             }
-            
-            console.log(clipboardArray.length);
-            console.log(clipboardSize);
-            
             if (clipboardArray.indexOf(text) === -1) {
                 clipboardArray.push(text);
                 if (clipboardArray.length > clipboardSize) {
@@ -30,7 +30,7 @@ export function activate(context: ExtensionContext) {
                 }
             }
         }
-    }    
+    }
 
     function makeQuickPick(clipboardArray, toBeRemoved?: boolean) {
         // Create quick pick clipboard items
@@ -61,14 +61,17 @@ export function activate(context: ExtensionContext) {
         let activeEditor
         if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
             let text = item.description;
+            pasteText(text);
+        }
+    }
+
+    function pasteText(text: string) {
+        let activeEditor
+        if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
             activeEditor.edit(function (textInserter) {
-                textInserter.delete(activeEditor.selection);    // Delete anything currently selected
-            }).then(function () {
-                activeEditor.edit(function (textInserter) {
-                    textInserter.insert(activeEditor.selection.start, text)     // Insert text from list
-                })
-            })  
-        }         
+                textInserter.replace(activeEditor.selection, text);
+            })
+        }
     }
 
     disposableArray.push(commands.registerCommand('clipboard.copy', () => {
@@ -81,15 +84,65 @@ export function activate(context: ExtensionContext) {
         commands.executeCommand("editor.action.clipboardCutAction");
     }));
 
+
     disposableArray.push(commands.registerCommand('clipboard.paste', () => {
         commands.executeCommand("editor.action.clipboardPasteAction");
     }));
 
+    disposableArray.push(commands.registerCommand('clipboard.cyclePaste', () => {
+        const now = new Date().valueOf();
+        if (clipboardArray.length == 0) {
+            // Nothing in clipboard history.
+            commands.executeCommand("editor.action.clipboardPasteAction");
+        } else {
+            // First cycle paste
+            if (lastPaste == -1) {
+                // Record timestamp
+                lastPaste = now;
+                // paste first item.
+                pasteText(clipboardArray[0]);
+                // rotate by 1
+                if (clipboardArray.length > 0) {
+                    clipboardArray.push(clipboardArray.shift())
+                }
+            } else {
+                if (now - lastPaste < 1000) {
+                    // Cycle paste the next item within 1 second
+                    lastPaste = now;
+                    // paste first item.
+                    pasteText(clipboardArray[0]);
+                    // rotate by 1
+                    if (clipboardArray.length > 0) {
+                        clipboardArray.push(clipboardArray.shift())
+                    }
+                } else {
+                    lastPaste = -1;
+                    pasteText(clipboardArray[0]);
+                }
+            }
+            // Clear outstanding clear selection timeout
+            if (timeoutAfterCyclePaste) {
+                clearTimeout(timeoutAfterCyclePaste);
+            }
+            timeoutAfterCyclePaste = setTimeout(function() {
+                // CLear selection
+                let activeEditor
+                if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
+                    activeEditor.selection = new Selection(activeEditor.selection.end, activeEditor.selection.end);
+                }
+                // Clear clear selection timeout
+                if (timeoutAfterCyclePaste) {
+                    clearTimeout(timeoutAfterCyclePaste);
+                }
+            }, 1000);
+        }
+    }));
+
     disposableArray.push(commands.registerCommand('clipboard.pasteFromClipboard', () => {
-        if (clipboardArray.length == 0) { 
+        if (clipboardArray.length == 0) {
             window.setStatusBarMessage("No items in clipboard");
             window.showQuickPick(makeQuickPick(clipboardArray));
-            return; 
+            return;
         } else {
             window.showQuickPick(makeQuickPick(clipboardArray)).then((item) => { pasteSelected(item); });
         }
@@ -114,7 +167,7 @@ export function activate(context: ExtensionContext) {
             });
         }
     }));
-    
+
     disposableArray.push(commands.registerCommand('clipboard.editClipboard', () => {
         if (clipboardArray.length == 0) {
             window.setStatusBarMessage("No items in clipboard");
