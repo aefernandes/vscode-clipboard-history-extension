@@ -6,6 +6,8 @@ export function activate(context: ExtensionContext) {
     let clipboardSize = config.get('size', 12);
     var clipboardArray = [];
     var disposableArray = [];
+
+    // Used by cyclePaste command
     let lastPaste = -1;
     let timeoutAfterCyclePaste;
 
@@ -90,18 +92,26 @@ export function activate(context: ExtensionContext) {
     disposableArray.push(commands.registerCommand('clipboard.cyclePaste', () => {
         const now = new Date().valueOf();
         if (clipboardArray.length == 0) {
+            // Nothing in clipboard history.
             commands.executeCommand("editor.action.clipboardPasteAction");
         } else {
+            // First cycle paste
             if (lastPaste == -1) {
+                // Record timestamp
+                lastPaste = now;
+                // paste first item.
                 pasteText(clipboardArray[0]);
+                // rotate by 1
                 if (clipboardArray.length > 0) {
                     clipboardArray.push(clipboardArray.shift())
                 }
-                lastPaste = now;
             } else {
                 if (now - lastPaste < 1000) {
+                    // Cycle paste the next item within 1 second
                     lastPaste = now;
+                    // paste first item.
                     pasteText(clipboardArray[0]);
+                    // rotate by 1
                     if (clipboardArray.length > 0) {
                         clipboardArray.push(clipboardArray.shift())
                     }
@@ -110,18 +120,20 @@ export function activate(context: ExtensionContext) {
                     pasteText(clipboardArray[0]);
                 }
             }
+            // Clear outstanding clear selection timeout
             if (timeoutAfterCyclePaste) {
                 clearTimeout(timeoutAfterCyclePaste);
             }
             timeoutAfterCyclePaste = setTimeout(function() {
+                // CLear selection
                 let activeEditor
                 if (activeEditor = window.activeTextEditor) {    // Don't run if no active text editor instance available
                     activeEditor.selection = new Selection(activeEditor.selection.end, activeEditor.selection.end);
                 }
+                // Clear clear selection timeout
                 if (timeoutAfterCyclePaste) {
                     clearTimeout(timeoutAfterCyclePaste);
                 }
-
             }, 1000);
         }
     }));

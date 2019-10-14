@@ -2,7 +2,7 @@
     "name": "clipboard-history",
     "displayName": "Clipboard History",
     "description": "Keep a history of your copied items and re-paste if needed",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "publisher": "Anjali",
     "license": "LICENSE.md",
     "icon": "images/logo.png",
