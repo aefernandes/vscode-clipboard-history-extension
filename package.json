@@ -24,6 +24,7 @@
         "onCommand:clipboard.copy",
         "onCommand:clipboard.cut",
         "onCommand:clipboard.paste",
+        "onCommand:clipboard.cyclePaste",
         "onCommand:clipboard.pasteFromClipboard",
         "onCommand:clipboard.removeFromClipboard",
         "onCommand:clipboard.editClipboard"
@@ -56,6 +57,10 @@
                 "title": "Paste"
             },
             {
+                "command": "clipboard.cyclePaste",
+                "title": "Cycle Paste"
+            },
+            {
                 "command": "clipboard.pasteFromClipboard",
                 "title": "Paste from Clipboard"
             },
@@ -85,6 +90,12 @@
                 "command": "clipboard.paste",
                 "key": "ctrl+v",
                 "mac": "cmd+v",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "clipboard.cyclePaste",
+                "key": "ctrl+shift+alt+v",
+                "mac": "cmd+shift+option+v",
                 "when": "editorTextFocus"
             },
             {

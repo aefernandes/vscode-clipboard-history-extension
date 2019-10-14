@@ -5,5 +5,20 @@
     },
     "search.exclude": {
         "out": true // set this to false to include "out" folder in search results
-    }
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#e42be8",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#565509",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "titleBar.activeBackground": "#c616ca",
+        "titleBar.inactiveBackground": "#c616ca99",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "statusBar.background": "#c616ca",
+        "statusBarItem.hoverBackground": "#e42be8",
+        "statusBar.foreground": "#e7e7e7"
+    },
+    "peacock.color": "#c616ca"
 }
